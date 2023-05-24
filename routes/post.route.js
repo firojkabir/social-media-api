@@ -14,7 +14,7 @@ router.post('/', Validator(postSchema), createPost)
 
 router.put('/:id', Validator(postSchema), updatePostById)
 
-router.put('/:id/like', Validator(postSchema), likeAPost)
+router.put('/:id/like', likeAPost)
 
 router.delete('/:id', deletePostById)
 
