@@ -29,6 +29,6 @@ app.use(authMiddleware)
 app.use("/", router)
 app.use(errorHandler)
 
-app.listen(port, () => {
+module.exports = app.listen(port, () => {
 	console.log(`Social media app listening on port ${port}`)
 })
