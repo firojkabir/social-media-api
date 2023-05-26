@@ -33,17 +33,17 @@ describe('User login', () => {
 	})
 })
 
-// describe('Create a post', () => {
-// 	it('should create a post', async () => {
-// 		const res = await request(app).post("/posts")
-// 			.send({
-// 				content: "Tomorrow will be brighter :)"
-// 			})
-// 			.set('Authorization', `Bearer ${token}`)
-// 			expect(res.status).toEqual(201)
-// 			expect(res.body.content).toEqual('Tomorrow will be brighter :)')
-// 	})
-// })
+describe('Create a post', () => {
+	it('should create a post', async () => {
+		const res = await request(app).post("/posts")
+			.send({
+				content: "Following day will be brighter :)"
+			})
+			.set('Authorization', `Bearer ${token}`)
+			expect(res.status).toEqual(201)
+			expect(res.body.content).toEqual('Following day will be brighter :)')
+	})
+})
 
 // describe('Get /posts', () => { 
 // 	it('should return all the posts', async () => {
@@ -86,11 +86,11 @@ describe('User login', () => {
 // 	})
 // })
 
-describe('Delete a post, /posts/:id', () => {
-	it('should delete a post', async () => {
-		const res = await request(app)
-			.delete('/posts/646ddf6d2a365623d977525d')
-			.set('Authorization', `Bearer ${token}`)
-			expect(res.status).toEqual(200)
-	})
-})
+// describe('Delete a post, /posts/:id', () => {
+// 	it('should delete a post', async () => {
+// 		const res = await request(app)
+// 			.delete('/posts/646ddf6d2a365623d977525d')
+// 			.set('Authorization', `Bearer ${token}`)
+// 			expect(res.status).toEqual(200)
+// 	})
+// })
