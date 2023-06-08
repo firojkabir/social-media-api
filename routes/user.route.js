@@ -1,12 +1,14 @@
 const express = require('express')
 
-const { getAllUsers, getUserById, updateUserById, deleteUserById, followUser, unfollowUser } = require('../controllers/user.controller')
+const { getAllUsers, getCurrentUser, getUserById, updateUserById, deleteUserById, followUser, unfollowUser } = require('../controllers/user.controller')
 const { Validator } = require('../middlewares/validator.middleware')
 const { userSchema } = require('../schemas/user.schema')
 
 const router = express.Router()
 
 router.get('/', getAllUsers)
+
+router.get('/current', getCurrentUser)
 
 router.get('/:id', getUserById)
 

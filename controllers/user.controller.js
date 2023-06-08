@@ -5,6 +5,13 @@ const getAllUsers = async (req, res) => {
 	res.json(users)
 }
 
+const getCurrentUser = async (req, res) => {
+	const user = await User.find({
+		_id: req.userId
+	})
+	res.json(user)
+}
+
 const getUserById = async (req, res) => {
 	const { id } = req.params
 
@@ -127,6 +134,7 @@ const deleteUserById = async (req, res) => {
 
 module.exports = {
 	getAllUsers,
+	getCurrentUser,
 	getUserById,
 	updateUserById,
 	followUser,
