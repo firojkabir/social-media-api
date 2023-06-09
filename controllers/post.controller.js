@@ -1,10 +1,9 @@
 const { Post } = require('../models/post.model')
 
 const getAllPosts = async (req, res) => {
-	const posts = await Post.find({
-		userId: req.userId
-	})
-	res.json(posts)
+	// const posts = await Post.find()
+	const randomPost = await Post.aggregate([{ $sample: { size: 5 } }])
+	res.json(randomPost)
 }
 
 const getPostByID = async (req, res) => {
