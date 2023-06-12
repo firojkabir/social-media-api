@@ -2,7 +2,7 @@ const { Post } = require('../models/post.model')
 
 const getAllPosts = async (req, res) => {
 	// const posts = await Post.find()
-	const randomPost = await Post.aggregate([{ $sample: { size: 5 } }])
+	const randomPost = await Post.aggregate([{ $sample: { size: 10 } }])
 	res.json(randomPost)
 }
 
@@ -11,7 +11,7 @@ const getPostByID = async (req, res) => {
 
 	try {
 		const post = await Post.findById(id)
-		if (post && post.userId == req.userId) {
+		if (post) {
 			res.json(post)
 		} else {
 			res.status(404).json({
@@ -80,10 +80,13 @@ const addAComment = async (req, res) => {
 
 	try {
 		const post = await Post.findById(id)
-		await post.updateOne({ $push: { comments: req.body.content } })
+		const latestComment = await post.updateOne({ $push: { comments: req.body.content } })
+		
 		res.status(200).json({
 			message: `Comment has been added!`
 		})
+		
+		global.io.emit('commentAdded', latestComment)
 	} catch (err) {
 		res.status(400).json({
 			message: `Invalid id '${id}'`

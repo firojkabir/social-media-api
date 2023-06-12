@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose")
 const morgan = require("morgan")
+const http = require("http")
+const { Server } = require("socket.io")
 
 const { router } = require("./routes");
 const { authRouter } = require('./routes/auth.route')
@@ -10,6 +12,10 @@ const { errorHandler } = require('./middlewares/error.middleware');
 const { authMiddleware } = require('./middlewares/auth.middleware')
 
 const app = express();
+const server = http.createServer(app)
+const io = new Server(server, { cors: { origin: '*' } })
+global.io = io
+
 const port = process.env.PORT || 3000;
 
 mongoose.connect(process.env.DB_URL).then(
@@ -29,6 +35,13 @@ app.use(authMiddleware)
 app.use("/", router)
 app.use(errorHandler)
 
-module.exports = app.listen(port, () => {
+io.on('connection', (socket) => {
+	console.log('a user connected', socket.id);
+	io.emit('myMessage', {})
+});
+
+module.exports = server.listen(port, () => {
+	console.log(global)
 	console.log(`Social media app listening on port ${port}`)
+	io.emit('myEvent', {})
 })
