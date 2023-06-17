@@ -80,13 +80,13 @@ const addAComment = async (req, res) => {
 
 	try {
 		const post = await Post.findById(id)
-		const latestComment = await post.updateOne({ $push: { comments: req.body.content } })
+		await post.updateOne({ $push: { comments: req.body.content } }, {})
 		
 		res.status(200).json({
 			message: `Comment has been added!`
 		})
 		
-		global.io.emit('commentAdded', latestComment)
+		global.io.emit('commentAdded', { postId: id, comment: req.body.content })
 	} catch (err) {
 		res.status(400).json({
 			message: `Invalid id '${id}'`
