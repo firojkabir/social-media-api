@@ -1,5 +1,13 @@
 const { Post } = require('../models/post.model')
 
+// enum SocketEvent {
+// 	CommentAdded = 'commentAdded',
+//   }
+
+const Events = {
+	CommentAdded: 'commentAdded',
+}
+
 const getAllPosts = async (req, res) => {
 	// const posts = await Post.find()
 	const randomPost = await Post.aggregate([{ $sample: { size: 10 } }])
@@ -37,8 +45,7 @@ const updatePostById = async (req, res) => {
 	try {
 		const post = await Post.findById(id)
 		if (post && post.userId == req.userId) {
-			await Post.findByIdAndUpdate(id, req.body)
-			const updatedPost = await Post.findById(id)
+			const updatedPost = await Post.findByIdAndUpdate(id, req.body, { new: true })
 			res.status(200).json(updatedPost)
 		} else {
 			res.status(404).json({
@@ -79,14 +86,16 @@ const addAComment = async (req, res) => {
 	const { id } = req.params
 
 	try {
-		const post = await Post.findById(id)
-		await post.updateOne({ $push: { comments: req.body.content } }, {})
+		const post = await Post.findByIdAndUpdate(id, { $push: { comments: { content: req.body.content } } }, { new: true })
 		
+		const comment = post.comments[post.comments.length - 1]
+
 		res.status(200).json({
-			message: `Comment has been added!`
+			message: `Comment has been added!`,
+			payload: comment
 		})
 		
-		global.io.emit('commentAdded', { postId: id, comment: req.body.content })
+		global.io.emit(Events.CommentAdded, { postId: id, comment: comment })
 	} catch (err) {
 		res.status(400).json({
 			message: `Invalid id '${id}'`

@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const Comments = new mongoose.Schema({
+	content: String,
+	date: Date
+});
+
 const PostSchema = new mongoose.Schema(
   {
     userId: {
@@ -17,10 +22,7 @@ const PostSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-	comments: {
-		type: Array,
-		default: [],
-	},
+	comments: [Comments],
   },
   { timestamps: true }
 );

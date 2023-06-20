@@ -41,7 +41,6 @@ io.on('connection', (socket) => {
 });
 
 module.exports = server.listen(port, () => {
-	console.log(global)
 	console.log(`Social media app listening on port ${port}`)
 	io.emit('myEvent', {})
 })
