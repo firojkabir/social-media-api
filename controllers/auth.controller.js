@@ -32,7 +32,16 @@ const register = async (req, res, next) => {
 	}
 }
 
+const checkEmailExists = async (req, res) => {
+	const emailExists = await User.findOne({ email: req.body.email })
+
+	res.json({
+		emailExists: !!emailExists
+	})
+}
+
 module.exports = {
 	login,
-	register
+	register,
+	checkEmailExists
 }
