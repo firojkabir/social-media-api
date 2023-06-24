@@ -40,8 +40,17 @@ const checkEmailExists = async (req, res) => {
 	})
 }
 
+const checkDuplicatePhone = async (req, res) => {
+	const duplicatePhone = await User.findOne({ phone: req.body.phone })
+
+	res.json({
+		unique: !duplicatePhone
+	})
+}
+
 module.exports = {
 	login,
 	register,
-	checkEmailExists
+	checkEmailExists,
+	checkDuplicatePhone
 }
