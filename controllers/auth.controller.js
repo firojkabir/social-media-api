@@ -36,7 +36,7 @@ const checkEmailExists = async (req, res) => {
 	const emailExists = await User.findOne({ email: req.body.email })
 
 	res.json({
-		emailExists: !!emailExists
+		unique: !emailExists
 	})
 }
 

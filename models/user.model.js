@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema({
 	  type: Number,
 	  required: true,
 	},
+	phone: {
+		type: String,
+		required: true,
+		validate: validatePhone,
+	},
 	country: {
 	  type: String,
 	  required: true,
@@ -66,6 +71,12 @@ async function validateEmail(email) {
 	const existUser = await User.findOne({ email })
 
 	if (existUser) throw new Error('Email address already exists')
+}
+
+async function validatePhone(phone) {
+	const duplicatePhone = await User.findOne({ phone })
+
+	if (duplicatePhone) throw new Error('Duplicate phone number, try another one')
 }
 
 module.exports = { User };
